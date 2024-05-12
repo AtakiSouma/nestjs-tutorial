@@ -14,40 +14,22 @@ import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { validate } from "env.validation";
-import { dataSourceOptions } from './db/data-source';
+import { dataSourceOptions, typeOrmAsyncConfig } from 'db/data-source';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   port: 5430,
-    //   username: 'postgres',
-    //   password: '01685835912nam',
-    //   database: 'song',
-    //   synchronize: true,
-    //   entities: [Song,Artist,User,Playlist],
-
-    // })
     ConfigModule.forRoot({
-      isGlobal: true,
       envFilePath: [`${process.cwd()}/.env.${process.env.NODE_ENV}`],
+      isGlobal: true,
+      // envFilePath: ['.env.development', '.env.production'],
       load: [configuration],
       validate: validate,
     }),
-
-    // TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    TypeOrmModule.forRoot(dataSourceOptions)
-    ,
-
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     SongsModule,
-
     ArtistsModule,
-
     UsersModule,
-
     PlaylistModule,
-
     AuthModule,
 
     SeedModule],
