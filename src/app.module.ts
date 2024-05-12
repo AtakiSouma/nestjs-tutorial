@@ -31,10 +31,9 @@ import { dataSourceOptions } from './db/data-source';
     // })
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.development.env', '.production.env'],
+      envFilePath: [`${process.cwd()}/.env.${process.env.NODE_ENV}`],
       load: [configuration],
       validate: validate,
-
     }),
 
     // TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
@@ -55,15 +54,16 @@ import { dataSourceOptions } from './db/data-source';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  constructor(private dataSource: DataSource) {
-    console.log(dataSource.driver.database);
-  }
-  configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes('songs'); // option no 1
-    // consumer
-    // .apply(LoggerMiddleware)
-    // .forRoutes({ path: 'songs', method: RequestMethod.POST }); //option no 2
-    consumer.apply(LoggerMiddleware).forRoutes(SongsController); //option no 3
-  }
-}
+export class AppModule { }
+// implements NestModule {
+//   constructor(private dataSource: DataSource) {
+//     console.log(dataSource.driver.database);
+//   }
+//   configure(consumer: MiddlewareConsumer) {
+//     // consumer.apply(LoggerMiddleware).forRoutes('songs'); // option no 1
+//     // consumer
+//     // .apply(LoggerMiddleware)
+//     // .forRoutes({ path: 'songs', method: RequestMethod.POST }); //option no 2
+//     consumer.apply(LoggerMiddleware).forRoutes(SongsController); //option no 3
+//   }
+// }
